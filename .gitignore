@@ -5,6 +5,7 @@
 
 !/src/
 !/main.py
+!/build_descriptions.py
 !/config.py
 !/.gitignore
 !/README.md
@@ -13,6 +14,15 @@
 !/dataset/
 
 # ── Explicitly Ignore: Sensitive and Large Data ───────────────────────────────
+
+# Large raw training data (use *_sample.csv / Data_sample.csv instead)
+dataset/amazon/train_40k.csv
+dataset/amazon/val_10k.csv
+dataset/dbpedia/DBPEDIA_train.csv
+dataset/dbpedia/DBPEDIA_val.csv
+dataset/dbpedia/DBPEDIA_test.csv
+dataset/dbpedia/DBP_data.csv
+dataset/wos/Data.xlsx
 
 # Results (TXT, JSON, JSONL logs)
 /results/
