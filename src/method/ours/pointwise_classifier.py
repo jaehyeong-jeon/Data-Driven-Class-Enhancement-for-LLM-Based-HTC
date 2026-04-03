@@ -93,7 +93,7 @@ class PointwiseClassifier:
 
     async def _ask_yn(self, text, path_label):
         """Ask a single yes/no question for one path. Returns (path_label, bool)."""
-        from .prompts import create_pointwise_yn_prompt
+        from src.prompts import create_pointwise_yn_prompt
         prompt = create_pointwise_yn_prompt(text, path_label, self.dataset)
         
         if self.label2desc:
@@ -111,7 +111,7 @@ class PointwiseClassifier:
 
     async def _final_select(self, text, candidates, verbose=False):
         """Pick one from candidates list of (leaf_id, path_label). Returns index."""
-        from .prompts import create_pointwise_final_prompt
+        from src.prompts import create_pointwise_final_prompt
         candidates_info = [
             {'id': lid, 'path_label': plabel}
             for lid, plabel in candidates

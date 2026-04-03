@@ -43,7 +43,7 @@ DESC_PATHS = {
 _KEY_NORM = {"mental_health": "mental health"}
 
 def load_label2desc(dataset) -> dict:
-    """label(lowercase) -> description string (from generate_description.py output)."""
+    """label(lowercase) -> description string (from build_descriptions.py output)."""
     desc_path = DESC_PATHS.get(dataset, "")
     if not os.path.exists(desc_path):
         return {}

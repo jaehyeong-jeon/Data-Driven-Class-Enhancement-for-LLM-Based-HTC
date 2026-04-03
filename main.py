@@ -81,8 +81,7 @@ def main():
     # ── Setup ─────────────────────────────────────────────────────────────────
     from config import load_dataset_config, load_label2desc, load_id2desc
     from src.utils import CallStats
-    from src.method.baseline import run_baseline, run_ensemble
-    from src.method.ours import run_ours
+    from src.method.run import run_baseline, run_ours
     from src.evaluation import evaluate_and_save
 
     num_layers = NUM_LAYERS[dataset]
@@ -166,19 +165,15 @@ def main():
 
     # ── Execute Experiment if no existing results ─────────────────────────────
     if results is None:
-        if method == "ensemble":
-            id2desc = load_id2desc(dataset, cfg["id2label"]) if args.use_desc else {}
-            # Modified run_ensemble could return results, but for now we follow the path
-            run_ensemble(texts, i_start, i_end, cfg, call_gpt,
-                         args.use_desc, id2desc, args.max_workers,
-                         desc_folder, suffix_seg, out_dir)
-            stats.print_summary(i_end - i_start)
-            return
-
-        elif method in BASELINE:
+        if method in BASELINE:
             id2desc = load_id2desc(dataset, cfg["id2label"]) if args.use_desc else {}
             results = run_baseline(method, texts, i_start, i_end, cfg, call_gpt,
-                                    args.prompt_type, args.use_desc, id2desc, args.max_workers)
+                                   args.prompt_type, args.use_desc, id2desc, args.max_workers,
+                                   desc_subfolder=desc_folder, suffix_segment=suffix_seg,
+                                   out_dir=out_dir)
+            if method == "ensemble":
+                stats.print_summary(i_end - i_start)
+                return
         else:
             results = run_ours(method, texts, i_start, i_end, cfg, call_gpt, args)
 

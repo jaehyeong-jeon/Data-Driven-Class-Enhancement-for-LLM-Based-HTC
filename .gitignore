@@ -10,11 +10,9 @@
 !/README.md
 !/requirements.txt
 !/.env.example
+!/dataset/
 
 # ── Explicitly Ignore: Sensitive and Large Data ───────────────────────────────
-
-# Dataset (CSV, PKL, NPY, etc.)
-/dataset/
 
 # Results (TXT, JSON, JSONL logs)
 /results/

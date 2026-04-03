@@ -86,7 +86,7 @@ class TopDownLLMBeamSearch:
         if len(candidate_ids) <= k:
             return candidate_ids, f"All {len(candidate_ids)} within k"
 
-        from .prompts import create_ranker_prompts
+        from src.prompts import create_ranker_prompts
         candidates_info = [
             {'id': cid, 'label': get_node_label(cid, self.id2label, self.dataset)}
             for cid in candidate_ids
@@ -117,7 +117,7 @@ class TopDownLLMBeamSearch:
 
     async def _ask_yn(self, text, node_id):
         """Yes/No relevance call for a single node. Returns (node_id, is_yes)."""
-        from .prompts import create_pointwise_yn_prompt
+        from src.prompts import create_pointwise_yn_prompt
         prompt = create_pointwise_yn_prompt(text, self._path_label(node_id), self.dataset)
         
         if self.label2desc:
