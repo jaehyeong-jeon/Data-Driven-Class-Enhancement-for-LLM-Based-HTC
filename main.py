@@ -3,15 +3,15 @@ Unified experiment runner for HiEPS.
 
 Datasets : amazon | dbpedia | wos
 Methods  : flatten | path | bfs | dfs | parent | ensemble
-           all_in_one | topdown_llm_beam | pointwise
+           all_in_one | topdown_beamsearch | pointwise
            all_baseline | all_ours          (meta: runs each sub-method)
 
 Usage:
-    python main.py --dataset amazon --model gpt-4o-mini --method flatten
-    python main.py --dataset amazon --model gpt-4o-mini --method all_in_one --use_desc
-    python main.py --dataset amazon --model gpt-4o-mini --method topdown_llm_beam --beam_size 3
-    python main.py --dataset wos    --model gpt-4o-mini --method ensemble
-    python main.py --dataset wos    --model gpt-4o-mini --method all_ours --use_desc --segment 0,500
+    python main.py --dataset amazon --model gpt-5.4-mini --method flatten
+    python main.py --dataset amazon --model gpt-5.4-mini --method all_in_one --use_desc
+    python main.py --dataset amazon --model gpt-5.4-mini --method topdown_beamsearch --beam_size 3
+    python main.py --dataset wos    --model gpt-5.4-mini --method ensemble
+    python main.py --dataset wos    --model gpt-5.4-mini --method all_ours --use_desc --segment 0,500
 """
 
 import argparse
@@ -31,7 +31,7 @@ load_dotenv()
 
 NUM_LAYERS      = {"wos": 2, "amazon": 3, "dbpedia": 3}
 BASELINE        = {"flatten", "path", "bfs", "dfs", "parent", "ensemble"}
-OURS            = {"all_in_one", "topdown_llm_beam", "pointwise"}
+OURS            = {"all_in_one", "topdown_beamsearch", "pointwise"}
 META            = {"all_baseline", "all_ours"}
 ALL_METHODS     = BASELINE | OURS | META
 
@@ -46,7 +46,7 @@ def parse_args():
     p.add_argument("--prompt_type",    default="single", choices=["single", "all"])
     p.add_argument("--segment",        default=None, help="e.g. 0,500")
     p.add_argument("--beam_size",      type=int, default=3)
-    p.add_argument("--selection_mode", default="per_child",
+    p.add_argument("--selection_mode", default="all_in_one",
                    choices=["per_child", "all_in_one", "pointwise"])
     p.add_argument("--use_desc",       action="store_true")
     p.add_argument("--max_workers",    type=int, default=10)
@@ -67,7 +67,7 @@ def main():
         sub_methods = (
             ["flatten", "path", "bfs", "dfs"] + ([] if dataset == "amazon" else ["parent"])
             if method == "all_baseline"
-            else ["all_in_one", "topdown_llm_beam", "pointwise"]
+            else ["all_in_one", "topdown_beamsearch", "pointwise"]
         )
         base_argv = [a for i, a in enumerate(sys.argv[1:], 1)
                      if sys.argv[i] != "--method" and (i < 2 or sys.argv[i - 1] != "--method")]
@@ -134,9 +134,9 @@ def main():
     elif method in BASELINE:
         out_dir = f"results/{dataset}/baseline/{desc_folder}/{method}_{args.prompt_type}/{model}"
     else:
-        out_dir = (f"results/{dataset}/ours/{desc_folder}/topdown_llm_beam"
+        out_dir = (f"results/{dataset}/ours/{desc_folder}/topdown_beamsearch"
                     f"/b{args.beam_size}_{args.selection_mode}/{model}"
-                    if method == "topdown_llm_beam"
+                    if method == "topdown_beamsearch"
                     else f"results/{dataset}/ours/{desc_folder}/{method}/{model}")
 
     txt_path = f"{out_dir}/eval5k{suffix_seg}.txt"

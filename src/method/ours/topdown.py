@@ -147,7 +147,7 @@ class TopDownLLMBeamSearch:
 
         details = {
             'layers': [],
-            'method': 'topdown_llm_beamsearch',
+            'method': 'topdown_beamsearchsearch',
             'llm_model': self.llm_model,
             'beam_size': self.beam_size,
             'selection_mode': self.selection_mode,

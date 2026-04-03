@@ -210,7 +210,7 @@ def run_ours(method, texts, i_start, i_end, cfg, call_gpt, args):
         classifier = AllInOneClassifier(cfg=cfg, llm_model=model, label2desc=label2desc)
         return _run_sync(classifier, texts, i_start, i_end, args.max_workers)
 
-    elif method == "topdown_llm_beam":
+    elif method == "topdown_beamsearch":
         classifier = TopDownLLMBeamSearch(
             cfg=cfg, llm_model=model, beam_size=args.beam_size,
             selection_mode=args.selection_mode,

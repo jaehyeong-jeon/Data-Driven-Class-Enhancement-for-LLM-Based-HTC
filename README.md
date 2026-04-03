@@ -26,7 +26,7 @@ Experiments for LLM-based hierarchical text classification (HTC) on Amazon, DBpe
 │   ├── method/
 │   │   ├── run.py           # run_baseline / run_ours / run_ensemble
 │   │   ├── baseline/        # flatten, path, bfs, dfs, parent
-│   │   └── ours/            # all_in_one, topdown_llm_beam, pointwise
+│   │   └── ours/            # all_in_one, topdown_beamsearch, pointwise
 │   ├── evaluation.py
 │   ├── llm_client.py
 │   ├── prompts/
@@ -43,12 +43,12 @@ cp .env.example .env       # fill in OPENAI_API_KEY
 
 ## Preprocessing: Build Category Descriptions
 
-Before running experiments with `--use_desc`, generate category descriptions for each dataset:
+Pre-built `description.json` files are already included in the repo for all three datasets, so this step can be skipped unless you want to regenerate them.
 
 ```bash
-python build_descriptions.py --dataset wos     --model gpt-4o-mini
-python build_descriptions.py --dataset amazon  --model gpt-4o-mini
-python build_descriptions.py --dataset dbpedia --model gpt-4o-mini
+python build_descriptions.py --dataset wos     --model gpt-5.4-mini
+python build_descriptions.py --dataset amazon  --model gpt-5.4-mini
+python build_descriptions.py --dataset dbpedia --model gpt-5.4-mini
 ```
 
 Descriptions are saved to `dataset/{dataset}/description.json`.
@@ -106,26 +106,26 @@ uses automatically if the full file is not present.
 | Method | Description |
 |--------|-------------|
 | `all_in_one` | Single-call path selection |
-| `topdown_llm_beam` | Top-down beam search with LLM ranker |
+| `topdown_beamsearch` | Top-down beam search with LLM ranker |
 | `pointwise` | Parallel yes/no per path → final selection |
 
 ## Usage
 
 ```bash
 # Single method
-python main.py --dataset amazon --model gpt-4o-mini --method flatten
-python main.py --dataset amazon --model gpt-4o-mini --method topdown_llm_beam --beam_size 3
-python main.py --dataset wos    --model gpt-4o-mini --method pointwise --use_desc
+python main.py --dataset amazon --model gpt-5.4-mini --method flatten
+python main.py --dataset amazon --model gpt-5.4-mini --method topdown_beamsearch --beam_size 3
+python main.py --dataset wos    --model gpt-5.4-mini --method pointwise --use_desc
 
 # Run all baselines / all ours at once
-python main.py --dataset amazon --model gpt-4o-mini --method all_baseline
-python main.py --dataset amazon --model gpt-4o-mini --method all_ours
+python main.py --dataset amazon --model gpt-5.4-mini --method all_baseline
+python main.py --dataset amazon --model gpt-5.4-mini --method all_ours
 
 # Ensemble
-python main.py --dataset wos --model gpt-4o-mini --method ensemble
+python main.py --dataset wos --model gpt-5.4-mini --method ensemble
 
 # Segment (e.g. first 500 samples)
-python main.py --dataset amazon --model gpt-4o-mini --method flatten --segment 0,500
+python main.py --dataset amazon --model gpt-5.4-mini --method flatten --segment 0,500
 ```
 
 ## Key Arguments
@@ -135,8 +135,8 @@ python main.py --dataset amazon --model gpt-4o-mini --method flatten --segment 0
 | `--dataset` | — | `amazon` / `dbpedia` / `wos` |
 | `--model` | — | OpenAI model name |
 | `--method` | — | See methods table above |
-| `--beam_size` | `3` | Beam width for `topdown_llm_beam` |
-| `--selection_mode` | `per_child` | `per_child` / `all_in_one` / `pointwise` |
+| `--beam_size` | `3` | Beam width for `topdown_beamsearch` |
+| `--selection_mode` | `all_in_one` | `per_child` / `all_in_one` / `pointwise` |
 | `--use_desc` | `False` | Append category descriptions to prompts |
 | `--max_workers` | `10` | Parallel LLM call threads |
 | `--segment` | `None` | `start,end` index slice |
