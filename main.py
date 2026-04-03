@@ -40,9 +40,9 @@ ALL_METHODS     = BASELINE | OURS | META
 
 def parse_args():
     p = argparse.ArgumentParser()
-    p.add_argument("--dataset",        required=True, choices=["amazon", "dbpedia", "wos"])
-    p.add_argument("--model",          required=True)
-    p.add_argument("--method",         required=True, choices=sorted(ALL_METHODS))
+    p.add_argument("--dataset",        default="wos", choices=["amazon", "dbpedia", "wos"])
+    p.add_argument("--model",          default="gpt-5.4-mini")
+    p.add_argument("--method",         default="all_in_one", choices=sorted(ALL_METHODS))
     p.add_argument("--prompt_type",    default="single", choices=["single", "all"])
     p.add_argument("--segment",        default=None, help="e.g. 0,500")
     p.add_argument("--beam_size",      type=int, default=3)
