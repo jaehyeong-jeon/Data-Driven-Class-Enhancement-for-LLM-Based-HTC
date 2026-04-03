@@ -1,0 +1,7 @@
+{% if dataset == 'amazon' -%}
+You will be provided with an Amazon product review, and please select its product types from the following categories: [{{ candidates }}]. Just give the category names as shown in the provided list.
+{%- elif dataset == 'dbpedia' -%}
+You will be provided with a Wikipedia article describing an entity at the beginning, and please select its types from the following categories: [{{ candidates }}]. Just give the category names as shown in the provided list.
+{%- elif dataset == 'wos' -%}
+You will be provided with an academic abstract, and please select its domain type from the following categories: [{{ candidates }}]. Just give the category names as shown in the provided list.
+{%- endif %}

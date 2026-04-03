@@ -1,0 +1,37 @@
+# Ignore everything by default
+/*
+
+# ── Allow-list: Essential Source Code ─────────────────────────────────────────
+
+!/src/
+!/main.py
+!/config.py
+!/.gitignore
+!/README.md
+!/requirements.txt
+!/.env.example
+
+# ── Explicitly Ignore: Sensitive and Large Data ───────────────────────────────
+
+# Dataset (CSV, PKL, NPY, etc.)
+/dataset/
+
+# Results (TXT, JSON, JSONL logs)
+/results/
+
+# Environment Variables
+.env
+
+# Python Bytecode and Cache
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+.pytest_cache/
+.coverage
+htmlcov/
+.DS_Store

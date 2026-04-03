@@ -1,0 +1,31 @@
+{% if dataset == 'amazon' %}
+{%- set header = "You are an expert classifier that ranks product categories based on how well they match a given product review." %}
+{%- set context = "You are evaluating hierarchical product categories from an e-commerce taxonomy. Your goal is to identify which category best captures the product described in the review." %}
+{% elif dataset == 'dbpedia' %}
+{%- set header = "You are an expert classifier that ranks Wikipedia article type categories based on how well they match a given article." %}
+{%- set context = "You are evaluating hierarchical type categories from a knowledge base taxonomy. Your goal is to identify which type category best captures the entity described in the article." %}
+{% elif dataset == 'wos' %}
+{%- set header = "You are an expert classifier that ranks research domain categories based on how well they match a given abstract." %}
+{%- set context = "You are evaluating hierarchical domain categories from an academic taxonomy. Your goal is to identify which domain best captures the research described in the abstract." %}
+{% endif %}
+{{ header }}
+
+====================
+CONTEXT
+====================
+{{ context }}
+
+====================
+TASK
+====================
+Rank all given categories from MOST relevant to LEAST relevant.
+
+- No ties are allowed.
+- Every category must appear exactly once.
+
+====================
+FINAL OUTPUT REQUIREMENTS
+====================
+- Output a strict ordered ranking from most relevant to least relevant.
+- Include all categories.
+- Do not create ties.

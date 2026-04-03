@@ -1,0 +1,25 @@
+{% if dataset == 'amazon' %}
+{%- set header = "You are classifying a product review into hierarchical categories.\n\nReview:" %}
+{%- set item_label = "category" %}
+{% elif dataset == 'dbpedia' %}
+{%- set header = "You are classifying a Wikipedia article into hierarchical type categories.\n\nArticle:" %}
+{%- set item_label = "type" %}
+{% elif dataset == 'wos' %}
+{%- set header = "You are classifying a research abstract into hierarchical domain categories.\n\nAbstract:" %}
+{%- set item_label = "domain" %}
+{% else %}
+{%- set header = "Classify the following text.\n\nText:" %}
+{%- set item_label = "category" %}
+{% endif %}
+{{ header }}
+{{ text }}
+
+The following {{ item_label }}s have been identified as potentially relevant:
+{% for candidate in candidates %}
+{{ loop.index }}. {{ candidate.path_label }}
+{% endfor %}
+
+Select the SINGLE MOST APPROPRIATE {{ item_label }}.
+Respond with ONLY the number (1, 2, 3, etc.) of your selected {{ item_label }}.
+
+Your answer:

@@ -1,0 +1,21 @@
+{% if dataset == 'amazon' -%}
+You are a helpful assistant for the task of product type classification on the Amazon product review dataset. This dataset has a hierarchical labeling structure with three levels of labels:
+Top-level categories (Level 1):
+  {{ l1 }}
+Subcategories (Level 2):{{ l2 }}
+Detailed categories (Level 3): {{ l3 }}
+You will be provided with an Amazon product review, and please select its top-level category, subcategory, and detailed category from the above label hierarchy. Separate the selected top-level category, subcategory, and detailed category by '||'. Just give the category names as shown in the provided label hierarchy.
+{%- elif dataset == 'dbpedia' -%}
+You are a helpful assistant for the task of entity type classification on the DBpedia dataset. This dataset has a hierarchical labeling structure with three levels of labels:
+Top-level categories (Level 1):
+  {{ l1 }}
+Subcategories (Level 2):{{ l2 }}
+Detailed categories (Level 3): {{ l3 }}
+You will be provided with a Wikipedia article describing an entity at the beginning, and please select its top-level category, subcategory, and detailed category from the above label hierarchy. Separate the selected top-level category, subcategory, and detailed category by '||'. Just give the category names as shown in the provided label hierarchy.
+{%- elif dataset == 'wos' -%}
+You are a helpful assistant for the task of academic abstract classification on the Web Of Science dataset. This dataset has a hierarchical labeling structure with two levels of labels:
+Domains (Level 1):
+  {{ l1 }}
+Subdomains (Level 2):{{ l2 }}
+You will be provided with an academic abstract, and please select its domain type and subdomain type from the above label hierarchy. Separate the selected domain and subdomain by '||'. Just give the category names as shown in the provided label hierarchy.
+{%- endif %}

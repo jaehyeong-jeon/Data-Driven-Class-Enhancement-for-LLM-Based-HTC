@@ -1,0 +1,13 @@
+Text: {{ text }}
+
+## Categories to Rank
+{% for item in candidates %}
+[{{ loop.index }}] {{ item.label }}
+{% endfor %}
+
+--- OUTPUT FORMAT ---
+Rank ALL {{ candidates|length }} categories using identifiers, in descending order of relevance.
+Format: [X] > [Y] > [Z] > ...
+Example: [4] > [2] > [1] > [3]
+
+Only respond with the ranking, nothing else.

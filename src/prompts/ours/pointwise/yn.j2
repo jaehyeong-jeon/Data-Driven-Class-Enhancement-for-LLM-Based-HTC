@@ -1,0 +1,22 @@
+{% if dataset == 'amazon' %}
+{%- set header = "You are classifying a product review into hierarchical categories.\n\nReview:" %}
+{%- set question = "Is this product review relevant to the above category?" %}
+{% elif dataset == 'dbpedia' %}
+{%- set header = "You are classifying a Wikipedia article into hierarchical type categories.\n\nArticle:" %}
+{%- set question = "Does this Wikipedia article belong to the above type?" %}
+{% elif dataset == 'wos' %}
+{%- set header = "You are classifying a research abstract into hierarchical domain categories.\n\nAbstract:" %}
+{%- set question = "Does this research abstract belong to the above domain?" %}
+{% else %}
+{%- set header = "Classify the following text.\n\nText:" %}
+{%- set question = "Is this text relevant to the above category?" %}
+{% endif %}
+{{ header }}
+{{ text }}
+
+Category: {{ path_label }}
+
+{{ question }}
+Answer with ONLY "Yes" or "No".
+
+Your answer:
